@@ -37,12 +37,12 @@ Completion gate: A workstream can be `done` only when lint passes, tests pass, a
 | Workstream | Status | Lint | Tests | Commit | Updated At (UTC) | Notes |
 |---|---|---|---|---|---|---|
 | Days 1-2: monorepo bootstrap + package scaffolding + Redwood demo boot | `done` | `pass` | `pass` | `yes (e9c4d76)` | 2026-02-12 | Workspace/package/app scaffolding committed |
-| Days 3-4: core contracts + `useGenericChat` + base streaming endpoint | `in_progress` | `pass` | `pass` | `pending` | 2026-02-12 | AI SDK UI stream response bridge and hook transport hardening added |
-| Days 5-6: OpenAI/OpenRouter adapters + telemetry hooks | `in_progress` | `pass` | `pass` | `pending` | 2026-02-12 | Provider adapters active; telemetry sink wired in demo runtime |
-| Days 7-8: D1 adapter + Miniflare + anonymous sessions + retention | `in_progress` | `pass` | `pass` | `pending` | 2026-02-12 | D1 query-path adapter + Miniflare config added; retention behavior tested |
-| Days 9-10: attachments (R2/local fallback) + validation + rendering | `in_progress` | `pass` | `pass` | `pending` | 2026-02-12 | R2 + local fallback attachment storage with validation and tests |
-| Days 11-12: stream resumption + reconnect + disconnect handling | `in_progress` | `pass` | `pass` | `pending` | 2026-02-12 | Resume handler emits AI SDK UI stream-compatible deltas |
-| Days 13-14: tests/docs/CI hardening + polish | `in_progress` | `pass` | `pass` | `pending` | 2026-02-12 | Added CI workflow + expanded unit/regression suite coverage |
+| Days 3-4: core contracts + `useGenericChat` + base streaming endpoint | `done` | `pass` | `pass` | `yes (bd33afe)` | 2026-02-12 | AI SDK UI stream response bridge and hook transport hardening committed |
+| Days 5-6: OpenAI/OpenRouter adapters + telemetry hooks | `done` | `pass` | `pass` | `yes (bd33afe)` | 2026-02-12 | Provider adapters and telemetry sink wiring committed |
+| Days 7-8: D1 adapter + Miniflare + anonymous sessions + retention | `done` | `pass` | `pass` | `yes (bd33afe)` | 2026-02-12 | D1 query-path adapter + Miniflare config + retention checks committed |
+| Days 9-10: attachments (R2/local fallback) + validation + rendering | `done` | `pass` | `pass` | `yes (bd33afe)` | 2026-02-12 | R2 + local fallback attachment flow and validation coverage committed |
+| Days 11-12: stream resumption + reconnect + disconnect handling | `done` | `pass` | `pass` | `yes (bd33afe)` | 2026-02-12 | Resume handler flow emits AI SDK-compatible streamed deltas |
+| Days 13-14: tests/docs/CI hardening + polish | `in_progress` | `pass` | `pass` | `yes (bd33afe)` | 2026-02-12 | CI + expanded suites committed; external live-provider/manual timed checks remain |
 
 ## Scenario Plan (`$balls`)
 ### Stakeholders
