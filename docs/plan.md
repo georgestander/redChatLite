@@ -36,13 +36,13 @@ Completion gate: A workstream can be `done` only when lint passes, tests pass, a
 
 | Workstream | Status | Lint | Tests | Commit | Updated At (UTC) | Notes |
 |---|---|---|---|---|---|---|
-| Days 1-2: monorepo bootstrap + package scaffolding + Redwood demo boot | `in_progress` | `pass` | `pass` | `pending` | 2026-02-12 | Workspace/package/app scaffolding created; awaiting commit |
-| Days 3-4: core contracts + `useGenericChat` + base streaming endpoint | `in_progress` | `pass` | `pass` | `pending` | 2026-02-12 | Core APIs + Redwood handlers + stream/resume baseline implemented |
-| Days 5-6: OpenAI/OpenRouter adapters + telemetry hooks | `todo` | `not-run` | `not-run` | `no` | 2026-02-12 | Pending implementation |
-| Days 7-8: D1 adapter + Miniflare + anonymous sessions + retention | `todo` | `not-run` | `not-run` | `no` | 2026-02-12 | Pending implementation |
-| Days 9-10: attachments (R2/local fallback) + validation + rendering | `todo` | `not-run` | `not-run` | `no` | 2026-02-12 | Pending implementation |
-| Days 11-12: stream resumption + reconnect + disconnect handling | `todo` | `not-run` | `not-run` | `no` | 2026-02-12 | Pending implementation |
-| Days 13-14: tests/docs/CI hardening + polish | `todo` | `not-run` | `not-run` | `no` | 2026-02-12 | Pending implementation |
+| Days 1-2: monorepo bootstrap + package scaffolding + Redwood demo boot | `done` | `pass` | `pass` | `yes (e9c4d76)` | 2026-02-12 | Workspace/package/app scaffolding committed |
+| Days 3-4: core contracts + `useGenericChat` + base streaming endpoint | `in_progress` | `pass` | `pass` | `pending` | 2026-02-12 | AI SDK UI stream response bridge and hook transport hardening added |
+| Days 5-6: OpenAI/OpenRouter adapters + telemetry hooks | `in_progress` | `pass` | `pass` | `pending` | 2026-02-12 | Provider adapters active; telemetry sink wired in demo runtime |
+| Days 7-8: D1 adapter + Miniflare + anonymous sessions + retention | `in_progress` | `pass` | `pass` | `pending` | 2026-02-12 | D1 query-path adapter + Miniflare config added; retention behavior tested |
+| Days 9-10: attachments (R2/local fallback) + validation + rendering | `in_progress` | `pass` | `pass` | `pending` | 2026-02-12 | R2 + local fallback attachment storage with validation and tests |
+| Days 11-12: stream resumption + reconnect + disconnect handling | `in_progress` | `pass` | `pass` | `pending` | 2026-02-12 | Resume handler emits AI SDK UI stream-compatible deltas |
+| Days 13-14: tests/docs/CI hardening + polish | `in_progress` | `pass` | `pass` | `pending` | 2026-02-12 | Added CI workflow + expanded unit/regression suite coverage |
 
 ## Scenario Plan (`$balls`)
 ### Stakeholders

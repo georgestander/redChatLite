@@ -5,7 +5,9 @@
   "private": true,
   "scripts": {
     "lint": "tsc --noEmit",
-    "typecheck": "tsc --noEmit"
+    "typecheck": "tsc --noEmit",
+    "dev:miniflare": "miniflare --config ./miniflare.config.mjs",
+    "smoke": "node -e \"console.log('redwood-demo smoke: use root regression suite for end-to-end checks')\""
   },
   "dependencies": {
     "@redwood-chat/system": "workspace:*",

@@ -51,14 +51,15 @@ describe('redwood stream handlers', () => {
     expect(response.headers.get('content-type')).toContain('text/event-stream');
 
     const output = await readStream(response.body as ReadableStream<Uint8Array>);
-    expect(output).toContain('"type":"delta"');
-    expect(output).toContain('"type":"done"');
+    expect(output).toContain('"type":"text-start"');
+    expect(output).toContain('"type":"text-delta"');
+    expect(output).toContain('"type":"text-end"');
 
     const resume = await handlers.stream(new Request('http://localhost/api/chat/thread-1/stream?cursor=1'), {
       id: 'thread-1'
     });
     expect(resume.status).toBe(200);
     const resumed = await readStream(resume.body as ReadableStream<Uint8Array>);
-    expect(resumed).toContain('"type":"resume"');
+    expect(resumed).toContain('"type":"text-delta"');
   });
 });

@@ -4,6 +4,8 @@ import { type AttachmentStore, type AttachmentUploadInput, type ChatAttachment }
 import { validateAttachment } from './validation.js';
 
 export class LocalAttachmentStore implements AttachmentStore {
+  private readonly metadata = new Map<string, ChatAttachment>();
+
   constructor(private readonly rootDir: string) {}
 
   async upload(input: AttachmentUploadInput): Promise<ChatAttachment> {
@@ -15,7 +17,7 @@ export class LocalAttachmentStore implements AttachmentStore {
     await fs.mkdir(path.dirname(filePath), { recursive: true });
     await fs.writeFile(filePath, input.data);
 
-    return {
+    const attachment = {
       id,
       threadId: input.threadId,
       messageId: input.messageId,
@@ -26,13 +28,22 @@ export class LocalAttachmentStore implements AttachmentStore {
       url: `/local-attachments/${key}`,
       createdAt: new Date().toISOString()
     };
+
+    this.metadata.set(id, attachment);
+    return attachment;
   }
 
-  async get(_id: string): Promise<ChatAttachment | null> {
-    return null;
+  async get(id: string): Promise<ChatAttachment | null> {
+    return this.metadata.get(id) ?? null;
   }
 
-  async delete(_id: string): Promise<void> {
-    return;
+  async delete(id: string): Promise<void> {
+    const attachment = this.metadata.get(id);
+    if (!attachment) {
+      return;
+    }
+
+    this.metadata.delete(id);
+    await fs.rm(path.join(this.rootDir, attachment.key), { force: true });
   }
 }

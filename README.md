@@ -22,10 +22,13 @@ RedwoodChat is a Redwood-first reusable chat system plan centered on RedwoodSDK 
 ## Implemented Baseline
 1. `@redwood-chat/system` package with required subpath exports.
 2. Core runtime contracts and `createChatSystem`.
-3. Redwood handler factory for `/api/chat`, `/api/chat/:id/stream`, `/api/chat/attachments`.
-4. Provider adapters (`mock`, OpenAI-compatible, OpenRouter-compatible).
-5. Storage and attachment adapters for local development.
-6. Unit + regression test harness mapped to scenario coverage in the plan.
+3. Redwood handler factory for `/api/chat`, `/api/chat/:id/stream`, `/api/chat/attachments` with AI SDK UI stream-compatible responses.
+4. Provider adapters (`mock`, OpenAI-compatible, OpenRouter-compatible) plus config-driven selection.
+5. Storage adapters: in-memory and D1-query-path with retention hooks.
+6. Attachment adapters: local store and R2 store with fallback support.
+7. Telemetry event sink wiring in the demo runtime.
+8. Miniflare config and CI workflow baseline.
+9. Unit + regression test harness mapped to scenario coverage in the plan.
 
 ## Working Agreements
 1. Follow `/Users/georgestander/dev/tools/redwoodChat/AGENTS.md`.

@@ -9,12 +9,14 @@
     "typecheck": "pnpm -r run typecheck",
     "test:unit": "vitest run --config vitest.unit.config.ts",
     "test:regression": "vitest run --config vitest.regression.config.ts",
+    "smoke": "pnpm run test:regression",
     "test": "pnpm run test:unit && pnpm run test:regression",
-    "ci": "pnpm run lint && pnpm run typecheck && pnpm run test"
+    "ci": "pnpm run lint && pnpm run typecheck && pnpm run test && pnpm run smoke"
   },
   "devDependencies": {
     "@types/node": "^24.3.0",
     "@types/react": "^19.2.14",
+    "miniflare": "^4.20260210.0",
     "typescript": "^5.9.2",
     "vitest": "^2.1.8"
   }

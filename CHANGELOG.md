@@ -13,3 +13,7 @@ All notable changes to this project are documented in this file.
 - Added `@redwood-chat/system` baseline implementation across `core`, `react`, `redwood`, `providers`, `storage`, `attachments`, and `ui`.
 - Added Redwood demo API/web scaffolding with chat, resume, and attachment handlers.
 - Added unit and regression test suites mapped to the Scenario Coverage Matrix.
+- Added D1 query-path storage adapter with schema init and fallback behavior.
+- Added R2 attachment store with local fallback and regression coverage for bound bucket usage.
+- Updated Redwood handlers to emit AI SDK UI stream-compatible responses (`text-start`/`text-delta`/`text-end`).
+- Added Miniflare configuration and GitHub Actions CI pipeline for lint/typecheck/unit/regression gates.
