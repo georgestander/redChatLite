@@ -1,0 +1,17 @@
+# Redwood demo Miniflare env
+AI_PROVIDER=mock
+
+# OpenAI
+OPENAI_API_KEY=
+OPENAI_MODEL=gpt-4o-mini
+
+# OpenRouter
+OPENROUTER_API_KEY=
+OPENROUTER_MODEL=openai/gpt-4o-mini
+
+# Optional telemetry
+CHAT_TELEMETRY_STDOUT=0
+
+# Optional R2 public URL
+R2_PUBLIC_BASE_URL=
+R2_PREFIX=redwood-chat-system

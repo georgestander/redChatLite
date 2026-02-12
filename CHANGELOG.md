@@ -19,3 +19,5 @@ All notable changes to this project are documented in this file.
 - Added Miniflare configuration and GitHub Actions CI pipeline for lint/typecheck/unit/regression gates.
 - Added detailed fork/clone quick-start and demo run instructions in `README.md`.
 - Added a runnable local demo server (`pnpm --filter redwood-demo run dev`) with browser UI at `http://localhost:8910`.
+- Updated provider setup docs to use `.env` / `.dev.vars` instead of shell `export` commands.
+- Added `apps/redwood-demo/.env.example` and `apps/redwood-demo/.dev.vars.example` templates.

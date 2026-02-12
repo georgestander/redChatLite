@@ -63,51 +63,40 @@ Default URL:
 4. Watch the assistant stream output live.
 
 ### Optional: Run With Provider Keys
-By default, demo uses the built-in `mock` provider. To use live providers:
+By default, demo uses the built-in `mock` provider. For live providers, use `.env` in `apps/redwood-demo`:
 
 ```bash
-export AI_PROVIDER=openai
-export OPENAI_API_KEY=<your_key>
-export OPENAI_MODEL=gpt-4o-mini
-pnpm --filter redwood-demo run dev
+cp apps/redwood-demo/.env.example apps/redwood-demo/.env
 ```
 
-or
+Then set your values in `apps/redwood-demo/.env`:
+- `AI_PROVIDER=openai` with `OPENAI_API_KEY=...` (and optional `OPENAI_MODEL`)
+- or `AI_PROVIDER=openrouter` with `OPENROUTER_API_KEY=...` (and optional `OPENROUTER_MODEL`)
+
+Then run:
 
 ```bash
-export AI_PROVIDER=openrouter
-export OPENROUTER_API_KEY=<your_key>
-export OPENROUTER_MODEL=openai/gpt-4o-mini
 pnpm --filter redwood-demo run dev
 ```
 
 ### Optional: Start Miniflare Bindings
+For Miniflare/Workers-style envs, use `.dev.vars`:
+
+```bash
+cp apps/redwood-demo/.dev.vars.example apps/redwood-demo/.dev.vars
+```
+
 ```bash
 pnpm --filter redwood-demo run dev:miniflare
 ```
 
 ## Provider Configuration (Optional)
-The demo runtime supports config-driven provider selection.
+The demo runtime supports config-driven provider selection via:
+1. `apps/redwood-demo/.env` for `pnpm --filter redwood-demo run dev`.
+2. `apps/redwood-demo/.dev.vars` for `pnpm --filter redwood-demo run dev:miniflare`.
 
-```bash
-export AI_PROVIDER=openai
-export OPENAI_API_KEY=<your_key>
-export OPENAI_MODEL=gpt-4o-mini
-```
-
-or
-
-```bash
-export AI_PROVIDER=openrouter
-export OPENROUTER_API_KEY=<your_key>
-export OPENROUTER_MODEL=openai/gpt-4o-mini
-```
-
-Optional telemetry output:
-
-```bash
-export CHAT_TELEMETRY_STDOUT=1
-```
+Optional telemetry:
+- `CHAT_TELEMETRY_STDOUT=1`
 
 ## v1 Goals
 1. One package with stable subpath exports (`core`, `react`, `redwood`, `providers`, `ui`).
