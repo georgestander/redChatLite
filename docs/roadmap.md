@@ -11,7 +11,7 @@ Completion gate: A row can be `done` only when lint passes, tests pass, and the 
 
 | Item | Status | Lint | Tests | Commit | Updated At (UTC) | Notes |
 |---|---|---|---|---|---|---|
-| Governance docs baseline (AGENTS/README/CHANGELOG/roadmap/progress tables) | `in_progress` | `not-run` | `not-run` | `pending` | 2026-02-12 | Awaiting commit in repo |
+| Governance docs baseline (AGENTS/README/CHANGELOG/roadmap/progress tables) | `in_progress` | `not-run` | `not-run` | `yes (48543ff)` | 2026-02-12 | Committed; awaiting lint/tests before `done` |
 | Product implementation sprint (from `docs/plan.md`) | `todo` | `not-run` | `not-run` | `no` | 2026-02-12 | No code implementation started |
 
 ## Future Plan Intake
