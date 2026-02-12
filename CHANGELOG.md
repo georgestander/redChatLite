@@ -17,3 +17,4 @@ All notable changes to this project are documented in this file.
 - Added R2 attachment store with local fallback and regression coverage for bound bucket usage.
 - Updated Redwood handlers to emit AI SDK UI stream-compatible responses (`text-start`/`text-delta`/`text-end`).
 - Added Miniflare configuration and GitHub Actions CI pipeline for lint/typecheck/unit/regression gates.
+- Added detailed fork/clone quick-start and demo run instructions in `README.md`.

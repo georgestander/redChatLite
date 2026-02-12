@@ -1,12 +1,95 @@
 # RedwoodChat
 
-RedwoodChat is a Redwood-first reusable chat system plan centered on RedwoodSDK + AI SDK `useChat`, designed to ship as `@redwood-chat/system` with subpath exports.
+RedwoodChat is a Redwood-first reusable chat system centered on RedwoodSDK + AI SDK `useChat`, designed to ship as `@redwood-chat/system` with subpath exports.
 
 ## Current Status
 - Phase: implementation in progress.
-- Active plan: `/Users/georgestander/dev/tools/redwoodChat/docs/plan.md`.
-- Active roadmap: `/Users/georgestander/dev/tools/redwoodChat/docs/roadmap.md`.
+- Active plan: `docs/plan.md`.
+- Active roadmap: `docs/roadmap.md`.
 - Validation baseline: `pnpm run lint`, `pnpm run typecheck`, `pnpm run test:unit`, `pnpm run test:regression`.
+
+## Quick Start (Fork or Clone)
+### 1) Prerequisites
+- Git
+- Node.js 20+
+- Corepack enabled (`corepack enable`)
+- pnpm 9.x (repo is pinned to `pnpm@9.15.9`)
+
+### 2) Fork + Clone
+If you are forking:
+1. Fork this repo in GitHub.
+2. Clone your fork:
+
+```bash
+git clone <your-fork-url>
+cd redwoodChat
+```
+
+If you are not forking:
+
+```bash
+git clone <repo-url>
+cd redwoodChat
+```
+
+### 3) Install Dependencies
+```bash
+pnpm install
+```
+
+### 4) Verify Everything Works
+```bash
+pnpm run lint
+pnpm run typecheck
+pnpm run test:unit
+pnpm run test:regression
+```
+
+## How To Run The Demo
+The demo is currently exercised through regression scenarios and the demo runtime wiring in `apps/redwood-demo`.
+
+### Option A: Run Full Demo Scenarios (Recommended)
+```bash
+pnpm run smoke
+```
+
+### Option B: Run Specific Demo Flows
+```bash
+pnpm exec vitest run tests/regression/chat/provider-swap.regression.test.ts
+pnpm exec vitest run tests/regression/chat/stream-resume.regression.test.ts
+pnpm exec vitest run tests/regression/chat/attachments.regression.test.ts
+pnpm exec vitest run tests/regression/chat/r2-binding.regression.test.ts
+```
+
+### Option C: Run Local Miniflare Bindings For Demo App
+```bash
+pnpm --filter redwood-demo run dev:miniflare
+```
+
+This starts local D1/R2-compatible bindings from `apps/redwood-demo/miniflare.config.mjs`.
+
+## Provider Configuration (Optional)
+The demo runtime supports config-driven provider selection.
+
+```bash
+export AI_PROVIDER=openai
+export OPENAI_API_KEY=<your_key>
+export OPENAI_MODEL=gpt-4o-mini
+```
+
+or
+
+```bash
+export AI_PROVIDER=openrouter
+export OPENROUTER_API_KEY=<your_key>
+export OPENROUTER_MODEL=openai/gpt-4o-mini
+```
+
+Optional telemetry output:
+
+```bash
+export CHAT_TELEMETRY_STDOUT=1
+```
 
 ## v1 Goals
 1. One package with stable subpath exports (`core`, `react`, `redwood`, `providers`, `ui`).
@@ -16,8 +99,8 @@ RedwoodChat is a Redwood-first reusable chat system plan centered on RedwoodSDK 
 5. Stream resumption support and telemetry hooks.
 
 ## Planned Layout
-- App demo: `/Users/georgestander/dev/tools/redwoodChat/apps/redwood-demo`
-- Package: `/Users/georgestander/dev/tools/redwoodChat/packages/redwood-chat-system`
+- App demo: `apps/redwood-demo`
+- Package: `packages/redwood-chat-system`
 
 ## Implemented Baseline
 1. `@redwood-chat/system` package with required subpath exports.
@@ -31,13 +114,13 @@ RedwoodChat is a Redwood-first reusable chat system plan centered on RedwoodSDK 
 9. Unit + regression test harness mapped to scenario coverage in the plan.
 
 ## Working Agreements
-1. Follow `/Users/georgestander/dev/tools/redwoodChat/AGENTS.md`.
-2. Log each logical change in `/Users/georgestander/dev/tools/redwoodChat/docs/log.ndjson`.
+1. Follow `AGENTS.md`.
+2. Log each logical change in `docs/log.ndjson`.
 3. Keep progress tables updated in plan documents.
 4. Only mark items `done` after lint + tests pass and changes are committed.
 
 ## Documentation Index
-- Plan: `/Users/georgestander/dev/tools/redwoodChat/docs/plan.md`
-- Roadmap: `/Users/georgestander/dev/tools/redwoodChat/docs/roadmap.md`
-- Change history: `/Users/georgestander/dev/tools/redwoodChat/CHANGELOG.md`
-- Activity log: `/Users/georgestander/dev/tools/redwoodChat/docs/log.ndjson`
+- Plan: `docs/plan.md`
+- Roadmap: `docs/roadmap.md`
+- Change history: `CHANGELOG.md`
+- Activity log: `docs/log.ndjson`

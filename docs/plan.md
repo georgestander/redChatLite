@@ -42,7 +42,7 @@ Completion gate: A workstream can be `done` only when lint passes, tests pass, a
 | Days 7-8: D1 adapter + Miniflare + anonymous sessions + retention | `done` | `pass` | `pass` | `yes (bd33afe)` | 2026-02-12 | D1 query-path adapter + Miniflare config + retention checks committed |
 | Days 9-10: attachments (R2/local fallback) + validation + rendering | `done` | `pass` | `pass` | `yes (bd33afe)` | 2026-02-12 | R2 + local fallback attachment flow and validation coverage committed |
 | Days 11-12: stream resumption + reconnect + disconnect handling | `done` | `pass` | `pass` | `yes (bd33afe)` | 2026-02-12 | Resume handler flow emits AI SDK-compatible streamed deltas |
-| Days 13-14: tests/docs/CI hardening + polish | `in_progress` | `pass` | `pass` | `yes (bd33afe)` | 2026-02-12 | CI + expanded suites committed; external live-provider/manual timed checks remain |
+| Days 13-14: tests/docs/CI hardening + polish | `in_progress` | `pass` | `pass` | `mixed (bd33afe + self)` | 2026-02-12 | CI + expanded suites committed; README quick-start/demo guide added; external live-provider/manual timed checks remain |
 
 ## Scenario Plan (`$balls`)
 ### Stakeholders

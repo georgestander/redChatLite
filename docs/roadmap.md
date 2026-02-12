@@ -12,7 +12,7 @@ Completion gate: A row can be `done` only when lint passes, tests pass, and the 
 | Item | Status | Lint | Tests | Commit | Updated At (UTC) | Notes |
 |---|---|---|---|---|---|---|
 | Governance docs baseline (AGENTS/README/CHANGELOG/roadmap/progress tables) | `in_progress` | `not-run` | `not-run` | `yes (48543ff)` | 2026-02-12 | Committed; awaiting lint/tests before `done` |
-| Product implementation sprint (from `docs/plan.md`) | `in_progress` | `pass` | `pass` | `yes (e9c4d76 + bd33afe)` | 2026-02-12 | Core build and hardening committed; final external acceptance checks pending |
+| Product implementation sprint (from `docs/plan.md`) | `in_progress` | `pass` | `pass` | `mixed (e9c4d76 + bd33afe + self)` | 2026-02-12 | Core build and hardening committed; quick-start/demo docs improved; final external acceptance checks pending |
 
 ## Future Plan Intake
 Add new plan cycles here after planning:
