@@ -3,9 +3,10 @@
 RedwoodChat is a Redwood-first reusable chat system plan centered on RedwoodSDK + AI SDK `useChat`, designed to ship as `@redwood-chat/system` with subpath exports.
 
 ## Current Status
-- Phase: planning and project governance baseline.
+- Phase: implementation in progress.
 - Active plan: `/Users/georgestander/dev/tools/redwoodChat/docs/plan.md`.
 - Active roadmap: `/Users/georgestander/dev/tools/redwoodChat/docs/roadmap.md`.
+- Validation baseline: `pnpm run lint`, `pnpm run typecheck`, `pnpm run test:unit`, `pnpm run test:regression`.
 
 ## v1 Goals
 1. One package with stable subpath exports (`core`, `react`, `redwood`, `providers`, `ui`).
@@ -17,6 +18,14 @@ RedwoodChat is a Redwood-first reusable chat system plan centered on RedwoodSDK 
 ## Planned Layout
 - App demo: `/Users/georgestander/dev/tools/redwoodChat/apps/redwood-demo`
 - Package: `/Users/georgestander/dev/tools/redwoodChat/packages/redwood-chat-system`
+
+## Implemented Baseline
+1. `@redwood-chat/system` package with required subpath exports.
+2. Core runtime contracts and `createChatSystem`.
+3. Redwood handler factory for `/api/chat`, `/api/chat/:id/stream`, `/api/chat/attachments`.
+4. Provider adapters (`mock`, OpenAI-compatible, OpenRouter-compatible).
+5. Storage and attachment adapters for local development.
+6. Unit + regression test harness mapped to scenario coverage in the plan.
 
 ## Working Agreements
 1. Follow `/Users/georgestander/dev/tools/redwoodChat/AGENTS.md`.

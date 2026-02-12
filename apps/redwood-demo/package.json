@@ -1,0 +1,14 @@
+{
+  "name": "redwood-demo",
+  "version": "0.1.0",
+  "type": "module",
+  "private": true,
+  "scripts": {
+    "lint": "tsc --noEmit",
+    "typecheck": "tsc --noEmit"
+  },
+  "dependencies": {
+    "@redwood-chat/system": "workspace:*",
+    "react": "^19.0.0"
+  }
+}

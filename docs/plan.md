@@ -36,13 +36,45 @@ Completion gate: A workstream can be `done` only when lint passes, tests pass, a
 
 | Workstream | Status | Lint | Tests | Commit | Updated At (UTC) | Notes |
 |---|---|---|---|---|---|---|
-| Days 1-2: monorepo bootstrap + package scaffolding + Redwood demo boot | `todo` | `not-run` | `not-run` | `no` | 2026-02-12 | Tracking initialized |
-| Days 3-4: core contracts + `useGenericChat` + base streaming endpoint | `todo` | `not-run` | `not-run` | `no` | 2026-02-12 | Pending implementation |
+| Days 1-2: monorepo bootstrap + package scaffolding + Redwood demo boot | `in_progress` | `pass` | `pass` | `pending` | 2026-02-12 | Workspace/package/app scaffolding created; awaiting commit |
+| Days 3-4: core contracts + `useGenericChat` + base streaming endpoint | `in_progress` | `pass` | `pass` | `pending` | 2026-02-12 | Core APIs + Redwood handlers + stream/resume baseline implemented |
 | Days 5-6: OpenAI/OpenRouter adapters + telemetry hooks | `todo` | `not-run` | `not-run` | `no` | 2026-02-12 | Pending implementation |
 | Days 7-8: D1 adapter + Miniflare + anonymous sessions + retention | `todo` | `not-run` | `not-run` | `no` | 2026-02-12 | Pending implementation |
 | Days 9-10: attachments (R2/local fallback) + validation + rendering | `todo` | `not-run` | `not-run` | `no` | 2026-02-12 | Pending implementation |
 | Days 11-12: stream resumption + reconnect + disconnect handling | `todo` | `not-run` | `not-run` | `no` | 2026-02-12 | Pending implementation |
 | Days 13-14: tests/docs/CI hardening + polish | `todo` | `not-run` | `not-run` | `no` | 2026-02-12 | Pending implementation |
+
+## Scenario Plan (`$balls`)
+### Stakeholders
+1. Internal Redwood product teams integrating chat quickly.
+2. Maintainers of `@redwood-chat/system` responsible for API stability.
+3. CI/release owners requiring deterministic validation gates.
+
+### Success Criteria for Delivery
+1. v1 API surfaces exist and are typed: `core`, `react`, `redwood`, `providers`, `ui`.
+2. Redwood-first handlers support chat send, resume, and attachments contracts.
+3. Persistence, retention, provider swap, and attachment validation behaviors are covered by tests.
+4. Progress/log/changelog/readme/roadmap stay current while implementation advances.
+
+### Known Risks and Failure Modes
+1. Stream/resume contract mismatch with AI SDK transport semantics.
+2. Provider compatibility drift between OpenAI and OpenRouter response/error shapes.
+3. Attachment validation/storage behavior diverging between local and production adapters.
+4. State races on stream resume and concurrent message writes.
+5. False completion marking without lint/tests/commit evidence.
+
+### Scenario Coverage Matrix
+All rows must map to acceptance checks, unit tests, and regression tests before closing.
+
+| Scenario | Acceptance Checks | Unit Tests | Regression Tests |
+|---|---|---|---|
+| Fresh repo bootstrap and install path remains straightforward | `pnpm install`, documented workspace structure, script discoverability | `tests/unit/workspace/bootstrap.unit.test.ts` | `tests/regression/install/install-path.regression.test.ts` |
+| Provider swap (`openai` <-> `openrouter`) requires config only | runtime provider selection uses adapter registry, no UI code changes | `tests/unit/providers/provider-registry.unit.test.ts` | `tests/regression/chat/provider-swap.regression.test.ts` |
+| Stream send + resume through Redwood handlers | `/api/chat` returns stream, `/api/chat/:id/stream` reconnects active stream | `tests/unit/redwood/handlers-stream.unit.test.ts` | `tests/regression/chat/stream-resume.regression.test.ts` |
+| Attachment upload accepts only image/PDF <=10MB | MIME and size validation enforced before storage write | `tests/unit/attachments/validation.unit.test.ts` | `tests/regression/chat/attachments.regression.test.ts` |
+| D1 adapter persistence + retention lifecycle | thread/message/attachment/stream-state CRUD + retention pruning | `tests/unit/storage/d1-adapter.unit.test.ts` | `tests/regression/chat/persistence-retention.regression.test.ts` |
+| Telemetry hooks emit deterministic events | event schema and ordering are stable for send/stream/resume/upload | `tests/unit/telemetry/events.unit.test.ts` | `tests/regression/chat/telemetry-flow.regression.test.ts` |
+| Concurrent resume/write paths do not corrupt state | stream state and message writes remain consistent under overlap | `tests/unit/storage/concurrency.unit.test.ts` | `tests/regression/chat/concurrency.regression.test.ts` |
 
 ## Scope Boundaries
 

@@ -1,0 +1,21 @@
+{
+  "name": "redwood-chat-workspace",
+  "version": "0.1.0",
+  "private": true,
+  "packageManager": "pnpm@9.15.9",
+  "scripts": {
+    "lint": "pnpm -r run lint && pnpm run lint:docs",
+    "lint:docs": "node scripts/lint-docs.mjs",
+    "typecheck": "pnpm -r run typecheck",
+    "test:unit": "vitest run --config vitest.unit.config.ts",
+    "test:regression": "vitest run --config vitest.regression.config.ts",
+    "test": "pnpm run test:unit && pnpm run test:regression",
+    "ci": "pnpm run lint && pnpm run typecheck && pnpm run test"
+  },
+  "devDependencies": {
+    "@types/node": "^24.3.0",
+    "@types/react": "^19.2.14",
+    "typescript": "^5.9.2",
+    "vitest": "^2.1.8"
+  }
+}
