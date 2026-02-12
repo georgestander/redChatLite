@@ -45,28 +45,46 @@ pnpm run test:unit
 pnpm run test:regression
 ```
 
-## How To Run The Demo
-The demo is currently exercised through regression scenarios and the demo runtime wiring in `apps/redwood-demo`.
+## How To Run The Demo Locally
+Run the local demo app and use it in the browser.
 
-### Option A: Run Full Demo Scenarios (Recommended)
+### 1) Start Demo Server
 ```bash
-pnpm run smoke
+pnpm --filter redwood-demo run dev
 ```
 
-### Option B: Run Specific Demo Flows
+Default URL:
+- `http://localhost:8910`
+
+### 2) Use The Demo
+1. Open `http://localhost:8910`.
+2. Enter a prompt in the textarea.
+3. Click `Send`.
+4. Watch the assistant stream output live.
+
+### Optional: Run With Provider Keys
+By default, demo uses the built-in `mock` provider. To use live providers:
+
 ```bash
-pnpm exec vitest run tests/regression/chat/provider-swap.regression.test.ts
-pnpm exec vitest run tests/regression/chat/stream-resume.regression.test.ts
-pnpm exec vitest run tests/regression/chat/attachments.regression.test.ts
-pnpm exec vitest run tests/regression/chat/r2-binding.regression.test.ts
+export AI_PROVIDER=openai
+export OPENAI_API_KEY=<your_key>
+export OPENAI_MODEL=gpt-4o-mini
+pnpm --filter redwood-demo run dev
 ```
 
-### Option C: Run Local Miniflare Bindings For Demo App
+or
+
+```bash
+export AI_PROVIDER=openrouter
+export OPENROUTER_API_KEY=<your_key>
+export OPENROUTER_MODEL=openai/gpt-4o-mini
+pnpm --filter redwood-demo run dev
+```
+
+### Optional: Start Miniflare Bindings
 ```bash
 pnpm --filter redwood-demo run dev:miniflare
 ```
-
-This starts local D1/R2-compatible bindings from `apps/redwood-demo/miniflare.config.mjs`.
 
 ## Provider Configuration (Optional)
 The demo runtime supports config-driven provider selection.

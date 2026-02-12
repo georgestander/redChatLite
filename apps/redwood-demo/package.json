@@ -4,6 +4,7 @@
   "type": "module",
   "private": true,
   "scripts": {
+    "dev": "tsx ./scripts/dev-server.ts",
     "lint": "tsc --noEmit",
     "typecheck": "tsc --noEmit",
     "dev:miniflare": "miniflare --config ./miniflare.config.mjs",

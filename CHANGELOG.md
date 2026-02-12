@@ -18,3 +18,4 @@ All notable changes to this project are documented in this file.
 - Updated Redwood handlers to emit AI SDK UI stream-compatible responses (`text-start`/`text-delta`/`text-end`).
 - Added Miniflare configuration and GitHub Actions CI pipeline for lint/typecheck/unit/regression gates.
 - Added detailed fork/clone quick-start and demo run instructions in `README.md`.
+- Added a runnable local demo server (`pnpm --filter redwood-demo run dev`) with browser UI at `http://localhost:8910`.
