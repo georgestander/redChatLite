@@ -43,7 +43,7 @@ Completion gate: A row can be `done` only when lint passes, tests pass, and the 
 
 | Item | Status | Lint | Tests | Commit | Updated At (UTC) | Notes |
 |---|---|---|---|---|---|---|
-| Phase 0: parity spec lock and protocol contract mapping | `todo` | `not-run` | `not-run` | `no` | 2026-02-16T00:00:00Z | Freeze parity matrix against AI SDK UI message/stream contracts |
+| Phase 0: parity spec lock and protocol contract mapping | `done` | `pass` | `pass` | `yes` | 2026-02-16T11:15:19Z | Scenario plan + coverage matrix locked and validated via lint/typecheck/unit/regression gates |
 | Phase 1: promote RWSdk runtime as default demo execution path | `todo` | `not-run` | `not-run` | `no` | 2026-02-16T00:00:00Z | Replace custom Node HTML entry path with RWSdk app runtime |
 | Phase 2: wire React chat page as canonical demo UI | `todo` | `not-run` | `not-run` | `no` | 2026-02-16T00:00:00Z | Make web UI the documented and tested local demo flow |
 | Phase 3: message model + renderer parity (reasoning/source/tool/data/file) | `todo` | `not-run` | `not-run` | `no` | 2026-02-16T00:00:00Z | Extend contracts and default UI renderer coverage |
@@ -62,6 +62,37 @@ Completion gate: A row can be `done` only when lint passes, tests pass, and the 
 1. Create a parity matrix from AI SDK UI capabilities to local package/demo surfaces.
 2. Identify required protocol events and message-part mappings.
 3. Lock what "full parity" means for this repo before implementation work begins.
+
+## Phase 0 Scenario Plan (`$balls`)
+Phase 0 is documentation-first and exists to freeze scope, risks, and validation coupling before implementation begins.
+
+### Stakeholders
+1. Internal Redwood product teams that need a trustworthy parity baseline.
+2. `@redwood-chat/system` maintainers that own API/runtime compatibility.
+3. CI/release owners that enforce completion gates before phase promotion.
+
+### Success Criteria
+1. A locked parity contract exists for UI message parts and stream events used by this repo.
+2. Each Phase 0 scenario is mapped to acceptance checks, unit suites, and regression suites.
+3. Plan and roadmap progress rows remain aligned with lint/tests/commit gates.
+
+### Known Risks and Failure Modes
+1. Contract drift between local message/stream semantics and AI SDK UI expectations.
+2. False parity claims without executable suite coupling.
+3. Gaps in provider/attachments/resume coverage that surface late in implementation.
+4. Premature completion marking without lint/tests/commit evidence.
+
+### Scenario Coverage Matrix
+All scenarios below must remain mapped to acceptance checks and executable suites before Phase 0 can be closed.
+
+| Scenario | Acceptance Check | Unit Tests | Regression Tests |
+|---|---|---|---|
+| AI SDK UI message-part contract lock (`text`, `file`, `reasoning`, `source`, `tool`, `data`) | Phase 0 parity matrix explicitly lists supported/target parts and stream event expectations for v2 | `tests/unit/react/use-generic-chat.unit.test.ts`, `tests/unit/redwood/handlers-stream.unit.test.ts` | `tests/regression/chat/stream-resume.regression.test.ts` |
+| Provider swap contract (`openai` <-> `openrouter`) | Provider choice remains config-only with stable chat handler contract | `tests/unit/providers/provider-registry.unit.test.ts` | `tests/regression/chat/provider-swap.regression.test.ts` |
+| Attachment validation + storage behavior | MIME/size contract and storage fallbacks remain explicit in parity scope | `tests/unit/attachments/validation.unit.test.ts`, `tests/unit/attachments/r2-store.unit.test.ts` | `tests/regression/chat/attachments.regression.test.ts`, `tests/regression/chat/r2-binding.regression.test.ts` |
+| Persistence + resume state lifecycle | `/api/chat` and `/api/chat/:id/stream` expectations map to deterministic storage and resume semantics | `tests/unit/storage/d1-adapter.unit.test.ts`, `tests/unit/storage/concurrency.unit.test.ts` | `tests/regression/chat/persistence-retention.regression.test.ts`, `tests/regression/chat/concurrency.regression.test.ts` |
+| Telemetry traceability | Event emission flow is documented and mapped to send/stream/resume/attachment behaviors | `tests/unit/telemetry/events.unit.test.ts` | `tests/regression/chat/telemetry-flow.regression.test.ts` |
+| Install + bootstrap reliability for consumers | Quickstart and baseline run path stay aligned with documented commands | `tests/unit/workspace/bootstrap.unit.test.ts` | `tests/regression/install/install-path.regression.test.ts` |
 
 ### Phase 1: Runtime Path Correction
 1. Make RWSdk runtime the default dev/demo entrypoint.

@@ -4,7 +4,7 @@
 | Plan | Window | Goal | Status |
 |---|---|---|---|
 | v1 MVP (current) | 2026-02-12 to 2026-02-25 | Reusable Redwood-first chat package with streaming, attachments, persistence, and resume support | `in_progress` |
-| v2 UI parity (next) | 2026-02-16 to 2026-03-06 | RWSdk-first runnable demo with practical full AI SDK UI chat parity | `planned` |
+| v2 UI parity (next) | 2026-02-16 to 2026-03-06 | RWSdk-first runnable demo with practical full AI SDK UI chat parity | `in_progress` |
 | v1.1 (later, draft) | TBD | Post-MVP hardening and expansion (provider breadth, ops tooling, production readiness) | `backlog` |
 
 ## Current Plan Progress (v1 MVP)
@@ -20,7 +20,7 @@ Completion gate: A row can be `done` only when lint passes, tests pass, and the 
 
 | Item | Status | Lint | Tests | Commit | Updated At (UTC) | Notes |
 |---|---|---|---|---|---|---|
-| Full AI SDK UI parity plan bootstrap (from `docs/plan-ui-parity.md`) | `in_progress` | `not-run` | `not-run` | `pending` | 2026-02-16 | Plan drafted and queued for implementation kickoff |
+| Full AI SDK UI parity plan bootstrap (from `docs/plan-ui-parity.md`) | `done` | `pass` | `pass` | `yes` | 2026-02-16T11:15:19Z | Phase 0 scenario plan + coverage matrix locked with full validation evidence |
 
 ## Future Plan Intake
 Add new plan cycles here after planning:

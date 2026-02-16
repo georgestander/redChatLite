@@ -23,3 +23,4 @@ All notable changes to this project are documented in this file.
 - Added `apps/redwood-demo/.env.example` and `apps/redwood-demo/.dev.vars.example` templates.
 - Added `docs/plan-ui-parity.md` with a phased delivery plan for RWSdk-first full AI SDK UI parity.
 - Updated `docs/roadmap.md` timeline/progress to track the new v2 UI parity plan.
+- Added Phase 0 scenario planning and Scenario Coverage Matrix in `docs/plan-ui-parity.md` to lock parity scope before implementation.
