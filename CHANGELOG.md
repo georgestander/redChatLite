@@ -31,3 +31,4 @@ All notable changes to this project are documented in this file.
 - Added Phase 8 visual parity plan scope and scenario matrix to deliver exact Vercel-style chat UI presentation in the demo.
 - Replaced the plain demo shell with a Vercel-style chat interface (header, conversation lane, user/assistant bubble styling, sticky composer, and attachment chips) and added UI parity tests.
 - Clarified README demo quickstart with explicit Vercel-style UI verification steps and dynamic local-port behavior (`5173` or next available).
+- Updated `.gitignore` to include `/docs` for new untracked documentation artifacts.
