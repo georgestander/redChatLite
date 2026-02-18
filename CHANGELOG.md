@@ -29,3 +29,4 @@ All notable changes to this project are documented in this file.
 - Finalized v2 release hardening by updating README runtime guidance, validating RedwoodSDK demo boot, and trimming legacy demo-only server files.
 - Fixed RedwoodSDK demo client boot by narrowing `forceClientPaths` to file globs so Vite no longer generates invalid `import("/web/src/components")` lookups.
 - Added Phase 8 visual parity plan scope and scenario matrix to deliver exact Vercel-style chat UI presentation in the demo.
+- Replaced the plain demo shell with a Vercel-style chat interface (header, conversation lane, user/assistant bubble styling, sticky composer, and attachment chips) and added UI parity tests.

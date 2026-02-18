@@ -4,7 +4,7 @@
 | Plan | Window | Goal | Status |
 |---|---|---|---|
 | v1 MVP (current) | 2026-02-12 to 2026-02-25 | Reusable Redwood-first chat package with streaming, attachments, persistence, and resume support | `in_progress` |
-| v2 UI parity (next) | 2026-02-16 to 2026-03-06 | RWSdk-first runnable demo with practical full AI SDK UI chat parity | `in_progress` |
+| v2 UI parity (next) | 2026-02-16 to 2026-03-06 | RWSdk-first runnable demo with practical full AI SDK UI chat parity | `done` |
 | v1.1 (later, draft) | TBD | Post-MVP hardening and expansion (provider breadth, ops tooling, production readiness) | `backlog` |
 
 ## Current Plan Progress (v1 MVP)
@@ -25,7 +25,7 @@ Completion gate: A row can be `done` only when lint passes, tests pass, and the 
 | Phases 2-6 parity implementation (v2) | `done` | `pass` | `pass` | `yes` | 2026-02-18T14:19:56Z | Chat UI controls, rich part rendering, hook parity, true provider streaming, and live resume continuation are implemented |
 | Phase 7 release hardening (v2) | `done` | `pass` | `pass` | `yes` | 2026-02-18T14:33:28Z | README/docs refreshed, RedwoodSDK demo boot validated, and release gates confirmed green |
 | Post-closeout boot regression fix (v2) | `done` | `pass` | `pass` | `yes` | 2026-02-18T14:41:06Z | Narrowed Redwood `forceClientPaths` glob to files so Vite client lookup imports resolve cleanly |
-| Phase 8 visual parity patch (v2) | `in_progress` | `not-run` | `not-run` | `no` | 2026-02-18T16:49:51Z | Reopened v2 to implement Vercel-style visual parity for the demo UI while preserving behavior parity |
+| Phase 8 visual parity patch (v2) | `done` | `pass` | `pass` | `yes` | 2026-02-18T16:56:51Z | Demo UI now matches Vercel-style chat structure/controls and ships with UI parity lock tests |
 
 ## Future Plan Intake
 Add new plan cycles here after planning:

@@ -108,7 +108,7 @@ Optional telemetry:
 7. Telemetry event sink wiring in the demo runtime.
 8. Miniflare config and CI workflow baseline.
 9. Unit + regression test harness mapped to scenario coverage in the plan.
-10. RedwoodSDK worker runtime demo path with React UI controls for send/stop/regenerate/resume and attachments.
+10. RedwoodSDK worker runtime demo path with a Vercel-style chat UI (message bubbles, sticky composer, attachment chips, and send/stop/regenerate/resume controls).
 
 ## Working Agreements
 1. Follow `AGENTS.md`.
