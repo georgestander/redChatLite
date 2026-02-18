@@ -3,7 +3,7 @@
 RedwoodChat is a Redwood-first reusable chat system centered on RedwoodSDK + AI SDK `useChat`, designed to ship as `@redwood-chat/system` with subpath exports.
 
 ## Current Status
-- Phase: v2 UI parity delivery completed.
+- Phase: v2 UI parity delivery completed (behavior + Vercel-style visual chat surface).
 - Active plan: `docs/plan-ui-parity.md`.
 - Active roadmap: `docs/roadmap.md`.
 - Validation baseline: `pnpm run lint`, `pnpm run typecheck`, `pnpm run test:unit`, `pnpm run test:regression`.
@@ -53,14 +53,15 @@ Run the RedwoodSDK demo app and use it in the browser.
 pnpm --filter redwood-demo run dev
 ```
 
-Default URL:
-- `http://localhost:5173`
+Default URL is `http://localhost:5173` (Vite may pick `5174+` if `5173` is already in use).
 
 ### 2) Use The Demo
-1. Open `http://localhost:5173`.
-2. Enter a prompt and optionally attach image/PDF files.
-3. Use `Send` to stream a reply.
-4. Use `Stop`, `Regenerate`, and `Resume` controls from the chat form.
+1. Open the `Local` URL shown in terminal (usually `http://localhost:5173`).
+2. Confirm the Vercel-style chat shell renders: top status bar, centered conversation lane, sticky rounded composer.
+3. Enter a prompt and optionally attach image/PDF files.
+4. Click `Send` to stream assistant output.
+5. Use `Stop`, `Regenerate`, and `Resume` from the composer controls.
+6. Confirm user messages render as blue right-aligned bubbles and assistant output renders left-aligned with assistant avatar.
 
 ### Optional: Run With Provider Keys
 By default, demo uses the built-in `mock` provider. For live providers, use `.dev.vars` in `apps/redwood-demo`:
