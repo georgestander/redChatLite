@@ -4,7 +4,12 @@
   "type": "module",
   "private": true,
   "scripts": {
-    "dev": "tsx ./scripts/dev-server.ts",
+    "build": "vite build",
+    "dev": "vite dev",
+    "dev:init": "rw-scripts dev-init",
+    "preview": "vite preview",
+    "worker:run": "rw-scripts worker-run",
+    "generate": "rw-scripts ensure-env && wrangler types --include-runtime false",
     "lint": "tsc --noEmit",
     "typecheck": "tsc --noEmit",
     "dev:miniflare": "miniflare --config ./miniflare.config.mjs",
@@ -12,6 +17,16 @@
   },
   "dependencies": {
     "@redwood-chat/system": "workspace:*",
-    "react": "^19.0.0"
+    "react": "19.2.4",
+    "react-dom": "19.2.4",
+    "react-server-dom-webpack": "19.2.4",
+    "rwsdk": "1.0.0-beta.54"
+  },
+  "devDependencies": {
+    "@cloudflare/vite-plugin": "1.25.1",
+    "@cloudflare/workers-types": "4.20260218.0",
+    "@types/react-dom": "19.2.3",
+    "vite": "7.3.1",
+    "wrangler": "4.66.0"
   }
 }

@@ -1,3 +1,5 @@
+'use client';
+
 import React from 'react';
 import { useGenericChat } from '@redwood-chat/system/react';
 import { DefaultChatShell } from '@redwood-chat/system/ui';

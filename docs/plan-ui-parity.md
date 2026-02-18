@@ -44,8 +44,8 @@ Completion gate: A row can be `done` only when lint passes, tests pass, and the 
 | Item | Status | Lint | Tests | Commit | Updated At (UTC) | Notes |
 |---|---|---|---|---|---|---|
 | Phase 0: parity spec lock and protocol contract mapping | `done` | `pass` | `pass` | `yes` | 2026-02-16T11:15:19Z | Scenario plan + coverage matrix locked and validated via lint/typecheck/unit/regression gates |
-| Phase 1: promote RWSdk runtime as default demo execution path | `todo` | `not-run` | `not-run` | `no` | 2026-02-16T00:00:00Z | Replace custom Node HTML entry path with RWSdk app runtime |
-| Phase 2: wire React chat page as canonical demo UI | `todo` | `not-run` | `not-run` | `no` | 2026-02-16T00:00:00Z | Make web UI the documented and tested local demo flow |
+| Phase 1: promote RWSdk runtime as default demo execution path | `done` | `pass` | `pass` | `yes` | 2026-02-18T14:13:43Z | RedwoodSDK `vite + worker` runtime scaffolded; `/api/chat*` and `/api/chat/attachments` routed through chat handlers |
+| Phase 2: wire React chat page as canonical demo UI | `in_progress` | `pass` | `pass` | `yes` | 2026-02-18T14:13:43Z | React chat page now serves at `/`; remaining parity controls (stop/regenerate/resume/attachments UX) pending |
 | Phase 3: message model + renderer parity (reasoning/source/tool/data/file) | `todo` | `not-run` | `not-run` | `no` | 2026-02-16T00:00:00Z | Extend contracts and default UI renderer coverage |
 | Phase 4: hook/transport parity (`useGenericChat`, request shaping, callbacks) | `todo` | `not-run` | `not-run` | `no` | 2026-02-16T00:00:00Z | Align with AI SDK chat helper/init behaviors used in app UIs |
 | Phase 5: true provider streaming + abort propagation | `todo` | `not-run` | `not-run` | `no` | 2026-02-16T00:00:00Z | Replace synthetic chunking with real stream bridge |

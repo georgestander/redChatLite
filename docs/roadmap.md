@@ -21,6 +21,8 @@ Completion gate: A row can be `done` only when lint passes, tests pass, and the 
 | Item | Status | Lint | Tests | Commit | Updated At (UTC) | Notes |
 |---|---|---|---|---|---|---|
 | Full AI SDK UI parity plan bootstrap (from `docs/plan-ui-parity.md`) | `done` | `pass` | `pass` | `yes` | 2026-02-16T11:15:19Z | Phase 0 scenario plan + coverage matrix locked with full validation evidence |
+| Phase 1 runtime migration (v2) | `done` | `pass` | `pass` | `yes` | 2026-02-18T14:13:43Z | redwood-demo now runs on RedwoodSDK `vite + worker` path with chat API routes preserved |
+| Phase 2 canonical UI routing (v2) | `in_progress` | `pass` | `pass` | `yes` | 2026-02-18T14:13:43Z | `/` now renders React chat page; parity controls and rich rendering still being implemented |
 
 ## Future Plan Intake
 Add new plan cycles here after planning:
