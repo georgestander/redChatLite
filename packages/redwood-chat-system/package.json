@@ -10,6 +10,9 @@
     "./react": "./src/react/index.ts",
     "./redwood": "./src/redwood/index.ts",
     "./providers": "./src/providers/index.ts",
+    "./storage": "./src/storage/index.ts",
+    "./attachments": "./src/attachments/index.ts",
+    "./telemetry": "./src/telemetry/index.ts",
     "./ui": "./src/ui/index.ts"
   },
   "scripts": {

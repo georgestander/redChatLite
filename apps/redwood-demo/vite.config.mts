@@ -7,6 +7,10 @@ export default defineConfig({
     cloudflare({
       viteEnvironment: { name: 'worker' }
     }),
-    redwood()
+    redwood({
+      forceClientPaths: [
+        '**/web/src/components/**'
+      ]
+    })
   ]
 });

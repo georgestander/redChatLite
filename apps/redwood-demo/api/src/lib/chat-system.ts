@@ -1,16 +1,13 @@
 import {
   createChatSystem,
-  createTelemetryCollector,
-  createMockProvider,
-  createOpenAIProvider,
-  createOpenRouterProvider,
-  createRedwoodChatHandlers,
-  D1ChatStorageAdapter,
-  LocalAttachmentStore,
-  R2AttachmentStore,
   type AttachmentStore,
   type ChatProviderAdapter
-} from '@redwood-chat/system';
+} from '@redwood-chat/system/core';
+import { createTelemetryCollector } from '@redwood-chat/system/telemetry';
+import { createMockProvider, createOpenAIProvider, createOpenRouterProvider } from '@redwood-chat/system/providers';
+import { createRedwoodChatHandlers } from '@redwood-chat/system/redwood';
+import { D1ChatStorageAdapter } from '@redwood-chat/system/storage';
+import { LocalAttachmentStore, R2AttachmentStore } from '@redwood-chat/system/attachments';
 
 function readEnv(name: string): string | undefined {
   if (typeof process !== 'undefined' && process.env?.[name]) {

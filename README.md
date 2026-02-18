@@ -3,8 +3,8 @@
 RedwoodChat is a Redwood-first reusable chat system centered on RedwoodSDK + AI SDK `useChat`, designed to ship as `@redwood-chat/system` with subpath exports.
 
 ## Current Status
-- Phase: implementation in progress.
-- Active plan: `docs/plan.md`.
+- Phase: v2 UI parity delivery completed.
+- Active plan: `docs/plan-ui-parity.md`.
 - Active roadmap: `docs/roadmap.md`.
 - Validation baseline: `pnpm run lint`, `pnpm run typecheck`, `pnpm run test:unit`, `pnpm run test:regression`.
 
@@ -46,7 +46,7 @@ pnpm run test:regression
 ```
 
 ## How To Run The Demo Locally
-Run the local demo app and use it in the browser.
+Run the RedwoodSDK demo app and use it in the browser.
 
 ### 1) Start Demo Server
 ```bash
@@ -54,22 +54,22 @@ pnpm --filter redwood-demo run dev
 ```
 
 Default URL:
-- `http://localhost:8910`
+- `http://localhost:5173`
 
 ### 2) Use The Demo
-1. Open `http://localhost:8910`.
-2. Enter a prompt in the textarea.
-3. Click `Send`.
-4. Watch the assistant stream output live.
+1. Open `http://localhost:5173`.
+2. Enter a prompt and optionally attach image/PDF files.
+3. Use `Send` to stream a reply.
+4. Use `Stop`, `Regenerate`, and `Resume` controls from the chat form.
 
 ### Optional: Run With Provider Keys
-By default, demo uses the built-in `mock` provider. For live providers, use `.env` in `apps/redwood-demo`:
+By default, demo uses the built-in `mock` provider. For live providers, use `.dev.vars` in `apps/redwood-demo`:
 
 ```bash
-cp apps/redwood-demo/.env.example apps/redwood-demo/.env
+cp apps/redwood-demo/.dev.vars.example apps/redwood-demo/.dev.vars
 ```
 
-Then set your values in `apps/redwood-demo/.env`:
+Then set your values in `apps/redwood-demo/.dev.vars`:
 - `AI_PROVIDER=openai` with `OPENAI_API_KEY=...` (and optional `OPENAI_MODEL`)
 - or `AI_PROVIDER=openrouter` with `OPENROUTER_API_KEY=...` (and optional `OPENROUTER_MODEL`)
 
@@ -79,21 +79,10 @@ Then run:
 pnpm --filter redwood-demo run dev
 ```
 
-### Optional: Start Miniflare Bindings
-For Miniflare/Workers-style envs, use `.dev.vars`:
-
-```bash
-cp apps/redwood-demo/.dev.vars.example apps/redwood-demo/.dev.vars
-```
-
-```bash
-pnpm --filter redwood-demo run dev:miniflare
-```
-
 ## Provider Configuration (Optional)
 The demo runtime supports config-driven provider selection via:
-1. `apps/redwood-demo/.env` for `pnpm --filter redwood-demo run dev`.
-2. `apps/redwood-demo/.dev.vars` for `pnpm --filter redwood-demo run dev:miniflare`.
+1. `apps/redwood-demo/.dev.vars` for `pnpm --filter redwood-demo run dev`.
+2. `apps/redwood-demo/.env` fallback for non-worker local scripts.
 
 Optional telemetry:
 - `CHAT_TELEMETRY_STDOUT=1`
@@ -119,6 +108,7 @@ Optional telemetry:
 7. Telemetry event sink wiring in the demo runtime.
 8. Miniflare config and CI workflow baseline.
 9. Unit + regression test harness mapped to scenario coverage in the plan.
+10. RedwoodSDK worker runtime demo path with React UI controls for send/stop/regenerate/resume and attachments.
 
 ## Working Agreements
 1. Follow `AGENTS.md`.

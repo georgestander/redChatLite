@@ -50,7 +50,7 @@ Completion gate: A row can be `done` only when lint passes, tests pass, and the 
 | Phase 4: hook/transport parity (`useGenericChat`, request shaping, callbacks) | `done` | `pass` | `pass` | `yes` | 2026-02-18T14:19:56Z | `useGenericChat` now forwards ChatInit callbacks and supports custom request-body shaping |
 | Phase 5: true provider streaming + abort propagation | `done` | `pass` | `pass` | `yes` | 2026-02-18T14:19:56Z | OpenAI/OpenRouter adapters now use real streaming responses and runtime passes abort signals |
 | Phase 6: resume semantics hardening (continue active generation) | `done` | `pass` | `pass` | `yes` | 2026-02-18T14:19:56Z | Runtime resume can attach to active streams and continue live deltas; regression coverage added |
-| Phase 7: test/doc hardening and release-readiness gates | `in_progress` | `pass` | `pass` | `yes` | 2026-02-18T14:19:56Z | Core parity code/tests complete; final README/demo docs and release wrap-up pending |
+| Phase 7: test/doc hardening and release-readiness gates | `done` | `pass` | `pass` | `yes` | 2026-02-18T14:33:28Z | README/runtime guidance refreshed, RedwoodSDK demo boot verified, and full lint/typecheck/unit/regression gates passing |
 
 ## Delivery Timeline
 1. Week 1 (2026-02-16 to 2026-02-22): Phases 0-3.

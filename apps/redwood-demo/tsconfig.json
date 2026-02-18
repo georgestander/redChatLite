@@ -7,7 +7,6 @@
     "moduleResolution": "bundler",
     "types": [
       "@cloudflare/workers-types",
-      "./worker-configuration.d.ts",
       "./types/rw.d.ts",
       "./types/vite.d.ts"
     ],
@@ -29,7 +28,6 @@
     "web/src/**/*",
     "src/**/*",
     "types/**/*",
-    "worker-configuration.d.ts",
     "vite.config.mts",
     "wrangler.jsonc"
   ]
