@@ -9,7 +9,7 @@ export default defineConfig({
     }),
     redwood({
       forceClientPaths: [
-        '**/web/src/components/**'
+        '**/web/src/components/**/*.{ts,tsx,js,jsx}'
       ]
     })
   ]

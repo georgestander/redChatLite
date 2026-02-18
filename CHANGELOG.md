@@ -27,3 +27,4 @@ All notable changes to this project are documented in this file.
 - Migrated `apps/redwood-demo` to RedwoodSDK `vite + worker` runtime wiring and routed `/` to the React chat page.
 - Expanded parity implementation with richer message-part rendering, `useGenericChat` callback/request-body passthrough, true OpenAI/OpenRouter streaming, and live resume continuation coverage.
 - Finalized v2 release hardening by updating README runtime guidance, validating RedwoodSDK demo boot, and trimming legacy demo-only server files.
+- Fixed RedwoodSDK demo client boot by narrowing `forceClientPaths` to file globs so Vite no longer generates invalid `import("/web/src/components")` lookups.

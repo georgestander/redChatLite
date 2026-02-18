@@ -24,6 +24,7 @@ Completion gate: A row can be `done` only when lint passes, tests pass, and the 
 | Phase 1 runtime migration (v2) | `done` | `pass` | `pass` | `yes` | 2026-02-18T14:13:43Z | redwood-demo now runs on RedwoodSDK `vite + worker` path with chat API routes preserved |
 | Phases 2-6 parity implementation (v2) | `done` | `pass` | `pass` | `yes` | 2026-02-18T14:19:56Z | Chat UI controls, rich part rendering, hook parity, true provider streaming, and live resume continuation are implemented |
 | Phase 7 release hardening (v2) | `done` | `pass` | `pass` | `yes` | 2026-02-18T14:33:28Z | README/docs refreshed, RedwoodSDK demo boot validated, and release gates confirmed green |
+| Post-closeout boot regression fix (v2) | `done` | `pass` | `pass` | `yes` | 2026-02-18T14:41:06Z | Narrowed Redwood `forceClientPaths` glob to files so Vite client lookup imports resolve cleanly |
 
 ## Future Plan Intake
 Add new plan cycles here after planning:

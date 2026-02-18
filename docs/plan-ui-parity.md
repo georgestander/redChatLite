@@ -51,6 +51,7 @@ Completion gate: A row can be `done` only when lint passes, tests pass, and the 
 | Phase 5: true provider streaming + abort propagation | `done` | `pass` | `pass` | `yes` | 2026-02-18T14:19:56Z | OpenAI/OpenRouter adapters now use real streaming responses and runtime passes abort signals |
 | Phase 6: resume semantics hardening (continue active generation) | `done` | `pass` | `pass` | `yes` | 2026-02-18T14:19:56Z | Runtime resume can attach to active streams and continue live deltas; regression coverage added |
 | Phase 7: test/doc hardening and release-readiness gates | `done` | `pass` | `pass` | `yes` | 2026-02-18T14:33:28Z | README/runtime guidance refreshed, RedwoodSDK demo boot verified, and full lint/typecheck/unit/regression gates passing |
+| Post-closeout patch: Redwood `use-client` lookup import fix | `done` | `pass` | `pass` | `yes` | 2026-02-18T14:41:06Z | Vite `virtual:use-client-lookup.js` no longer emits invalid `import(\"/web/src/components\")` entries |
 
 ## Delivery Timeline
 1. Week 1 (2026-02-16 to 2026-02-22): Phases 0-3.
