@@ -1,14 +1,56 @@
 export type ChatRole = 'system' | 'user' | 'assistant';
 
-export interface ChatMessagePart {
-  type: 'text' | 'attachment';
-  text?: string;
-  attachmentId?: string;
-  url?: string;
-  mimeType?: string;
-  name?: string;
-  sizeBytes?: number;
-}
+export type ChatMessagePart =
+  | {
+      type: 'text';
+      text: string;
+    }
+  | {
+      type: 'attachment';
+      attachmentId?: string;
+      url?: string;
+      mimeType?: string;
+      name?: string;
+      sizeBytes?: number;
+    }
+  | {
+      type: 'file';
+      url: string;
+      mediaType: string;
+      name?: string;
+    }
+  | {
+      type: 'reasoning';
+      text: string;
+    }
+  | {
+      type: 'source-url';
+      sourceId: string;
+      url: string;
+      title?: string;
+    }
+  | {
+      type: 'source-document';
+      sourceId: string;
+      title: string;
+      mediaType: string;
+      filename?: string;
+      url?: string;
+    }
+  | {
+      type: 'tool';
+      toolCallId: string;
+      toolName: string;
+      state: 'input-available' | 'output-available' | 'output-error';
+      input?: unknown;
+      output?: unknown;
+      errorText?: string;
+    }
+  | {
+      type: 'data';
+      name: string;
+      data: unknown;
+    };
 
 export interface ChatMessage {
   id: string;
@@ -119,6 +161,7 @@ export interface SendMessageInput {
   message: ChatMessage;
   model: string;
   providerId?: string;
+  signal?: AbortSignal;
 }
 
 export interface ChatRuntime {

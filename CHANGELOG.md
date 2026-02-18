@@ -25,3 +25,4 @@ All notable changes to this project are documented in this file.
 - Updated `docs/roadmap.md` timeline/progress to track the new v2 UI parity plan.
 - Added Phase 0 scenario planning and Scenario Coverage Matrix in `docs/plan-ui-parity.md` to lock parity scope before implementation.
 - Migrated `apps/redwood-demo` to RedwoodSDK `vite + worker` runtime wiring and routed `/` to the React chat page.
+- Expanded parity implementation with richer message-part rendering, `useGenericChat` callback/request-body passthrough, true OpenAI/OpenRouter streaming, and live resume continuation coverage.

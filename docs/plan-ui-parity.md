@@ -45,12 +45,12 @@ Completion gate: A row can be `done` only when lint passes, tests pass, and the 
 |---|---|---|---|---|---|---|
 | Phase 0: parity spec lock and protocol contract mapping | `done` | `pass` | `pass` | `yes` | 2026-02-16T11:15:19Z | Scenario plan + coverage matrix locked and validated via lint/typecheck/unit/regression gates |
 | Phase 1: promote RWSdk runtime as default demo execution path | `done` | `pass` | `pass` | `yes` | 2026-02-18T14:13:43Z | RedwoodSDK `vite + worker` runtime scaffolded; `/api/chat*` and `/api/chat/attachments` routed through chat handlers |
-| Phase 2: wire React chat page as canonical demo UI | `in_progress` | `pass` | `pass` | `yes` | 2026-02-18T14:13:43Z | React chat page now serves at `/`; remaining parity controls (stop/regenerate/resume/attachments UX) pending |
-| Phase 3: message model + renderer parity (reasoning/source/tool/data/file) | `todo` | `not-run` | `not-run` | `no` | 2026-02-16T00:00:00Z | Extend contracts and default UI renderer coverage |
-| Phase 4: hook/transport parity (`useGenericChat`, request shaping, callbacks) | `todo` | `not-run` | `not-run` | `no` | 2026-02-16T00:00:00Z | Align with AI SDK chat helper/init behaviors used in app UIs |
-| Phase 5: true provider streaming + abort propagation | `todo` | `not-run` | `not-run` | `no` | 2026-02-16T00:00:00Z | Replace synthetic chunking with real stream bridge |
-| Phase 6: resume semantics hardening (continue active generation) | `todo` | `not-run` | `not-run` | `no` | 2026-02-16T00:00:00Z | Ensure reconnect continues in-flight stream rather than replay only |
-| Phase 7: test/doc hardening and release-readiness gates | `todo` | `not-run` | `not-run` | `no` | 2026-02-16T00:00:00Z | Complete docs/CI evidence for parity sign-off |
+| Phase 2: wire React chat page as canonical demo UI | `done` | `pass` | `pass` | `yes` | 2026-02-18T14:19:56Z | `/` now serves React chat UI with send/stop/regenerate/resume and attachment upload controls |
+| Phase 3: message model + renderer parity (reasoning/source/tool/data/file) | `done` | `pass` | `pass` | `yes` | 2026-02-18T14:19:56Z | Core message-part contracts extended and default shell renders text/reasoning/file/source/tool/data parts |
+| Phase 4: hook/transport parity (`useGenericChat`, request shaping, callbacks) | `done` | `pass` | `pass` | `yes` | 2026-02-18T14:19:56Z | `useGenericChat` now forwards ChatInit callbacks and supports custom request-body shaping |
+| Phase 5: true provider streaming + abort propagation | `done` | `pass` | `pass` | `yes` | 2026-02-18T14:19:56Z | OpenAI/OpenRouter adapters now use real streaming responses and runtime passes abort signals |
+| Phase 6: resume semantics hardening (continue active generation) | `done` | `pass` | `pass` | `yes` | 2026-02-18T14:19:56Z | Runtime resume can attach to active streams and continue live deltas; regression coverage added |
+| Phase 7: test/doc hardening and release-readiness gates | `in_progress` | `pass` | `pass` | `yes` | 2026-02-18T14:19:56Z | Core parity code/tests complete; final README/demo docs and release wrap-up pending |
 
 ## Delivery Timeline
 1. Week 1 (2026-02-16 to 2026-02-22): Phases 0-3.

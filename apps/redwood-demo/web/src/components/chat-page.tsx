@@ -6,39 +6,53 @@ import { DefaultChatShell } from '@redwood-chat/system/ui';
 
 export function ChatPage() {
   const [draft, setDraft] = React.useState('');
-  const { messages, sendMessage, status } = useGenericChat({
+  const [uploading, setUploading] = React.useState(false);
+  const [files, setFiles] = React.useState<FileList | null>(null);
+  const chat = useGenericChat({
     id: 'redwood-demo-chat',
     api: '/api/chat',
     resume: true
-  }) as {
-    messages: Array<{ id: string; role: 'user' | 'assistant' | 'system'; parts?: Array<{ type?: string; text?: string }> }>;
-    sendMessage: (message: { text: string }) => Promise<void>;
-    status: string;
-  };
+  });
 
-  const shellMessages = messages.map((message) => ({
-    id: message.id,
-    role: message.role,
-    text:
-      message.parts?.find((part) => part.type === 'text')?.text ??
-      message.parts?.[0]?.text ??
-      ''
-  }));
+  const sendMessage = chat.sendMessage as (message: unknown) => Promise<void>;
 
   const onSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     const next = draft.trim();
-    if (!next) {
+    if (!next && !files?.length) {
       return;
     }
 
-    await sendMessage({ text: next });
+    const parts: Array<Record<string, unknown>> = [];
+    if (next) {
+      parts.push({ type: 'text', text: next });
+    }
+
+    if (files?.length) {
+      setUploading(true);
+      try {
+        const uploads = await Promise.all(Array.from(files).map((file) => uploadAttachment(file)));
+        for (const attachment of uploads) {
+          parts.push({
+            type: 'file',
+            mediaType: attachment.mimeType,
+            filename: attachment.name,
+            url: attachment.url
+          });
+        }
+      } finally {
+        setUploading(false);
+      }
+    }
+
+    await sendMessage(parts.length === 1 && next ? { text: next } : { parts });
     setDraft('');
+    setFiles(null);
   };
 
   return (
     <div style={{ display: 'grid', gap: 12 }}>
-      <DefaultChatShell title={`RedwoodChat Demo (${status})`} messages={shellMessages} />
+      <DefaultChatShell title={`RedwoodChat Demo (${chat.status})`} messages={chat.messages} />
       <form onSubmit={onSubmit} style={{ display: 'grid', gap: 8 }}>
         <label htmlFor="chat-input">Message</label>
         <input
@@ -48,10 +62,71 @@ export function ChatPage() {
           onChange={(event) => setDraft(event.target.value)}
           placeholder="Ask something..."
         />
-        <button type="submit" disabled={status === 'streaming'}>
-          Send
-        </button>
+        <label htmlFor="chat-file">Attachments (images or PDF)</label>
+        <input
+          id="chat-file"
+          name="chat-file"
+          type="file"
+          accept="image/*,application/pdf"
+          multiple
+          onChange={(event) => setFiles(event.target.files)}
+        />
+        <div style={{ display: 'flex', gap: 8, flexWrap: 'wrap' }}>
+          <button type="submit" disabled={chat.status === 'streaming' || uploading}>
+            {uploading ? 'Uploading...' : 'Send'}
+          </button>
+          <button
+            type="button"
+            disabled={chat.status !== 'streaming' && chat.status !== 'submitted'}
+            onClick={() => void chat.stop()}
+          >
+            Stop
+          </button>
+          <button type="button" onClick={() => void chat.regenerate()}>
+            Regenerate
+          </button>
+          <button type="button" onClick={() => void chat.resumeStream()}>
+            Resume
+          </button>
+        </div>
+        {chat.error ? (
+          <div role="alert" style={{ color: '#9b1c1c' }}>
+            {chat.error.message}
+          </div>
+        ) : null}
+        {files?.length ? (
+          <div style={{ fontSize: 13, color: '#444' }}>
+            {Array.from(files)
+              .map((file) => file.name)
+              .join(', ')}
+          </div>
+        ) : null}
       </form>
     </div>
   );
+}
+
+interface UploadedAttachment {
+  id: string;
+  name: string;
+  mimeType: string;
+  url: string;
+}
+
+async function uploadAttachment(file: File): Promise<UploadedAttachment> {
+  const formData = new FormData();
+  formData.set('threadId', 'redwood-demo-chat');
+  formData.set('file', file);
+
+  const response = await fetch('/api/chat/attachments', {
+    method: 'POST',
+    body: formData
+  });
+
+  if (!response.ok) {
+    throw new Error(`Attachment upload failed (${response.status})`);
+  }
+
+  const payload = (await response.json()) as { attachment: UploadedAttachment };
+  return payload.attachment;
 }

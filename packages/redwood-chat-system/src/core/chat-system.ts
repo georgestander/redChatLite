@@ -14,6 +14,12 @@ function sseData(payload: Record<string, unknown>): Uint8Array {
   return encoder.encode(`data: ${JSON.stringify(payload)}\n\n`);
 }
 
+interface ActiveStreamState {
+  chunks: string[];
+  status: 'active' | 'completed' | 'aborted';
+  listeners: Set<(event: { type: 'delta' | 'done' | 'error'; text?: string; error?: string }) => void>;
+}
+
 function getProvider(config: ChatSystemConfig, providerId?: string): ChatProviderAdapter {
   const id = providerId ?? config.defaultProviderId;
   const provider = config.providers[id];
@@ -29,6 +35,7 @@ function nowIso(config: ChatSystemConfig): string {
 
 export function createChatSystem(config: ChatSystemConfig): ChatRuntime {
   const retentionDays = config.retentionDays ?? 30;
+  const activeStreams = new Map<string, ActiveStreamState>();
 
   return {
     async sendMessage(input: SendMessageInput): Promise<ReadableStream<Uint8Array>> {
@@ -52,12 +59,19 @@ export function createChatSystem(config: ChatSystemConfig): ChatRuntime {
         threadId: input.threadId,
         messages: await config.storage.listMessages(input.threadId),
         model: input.model,
-        metadata: input.message.metadata
+        metadata: input.message.metadata,
+        signal: input.signal
       });
 
       return new ReadableStream<Uint8Array>({
         start: async (controller) => {
           const chunks: string[] = [];
+          const activeState: ActiveStreamState = {
+            chunks,
+            status: 'active',
+            listeners: new Set()
+          };
+          activeStreams.set(input.threadId, activeState);
           await config.storage.upsertStreamState({
             threadId: input.threadId,
             status: 'active',
@@ -78,9 +92,16 @@ export function createChatSystem(config: ChatSystemConfig): ChatRuntime {
                   updatedAt: nowIso(config)
                 });
                 controller.enqueue(sseData({ type: 'delta', text: event.text }));
+                for (const listener of activeState.listeners) {
+                  listener({ type: 'delta', text: event.text });
+                }
               }
               if (event.type === 'error') {
+                activeState.status = 'aborted';
                 controller.enqueue(sseData({ type: 'error', error: event.error ?? 'provider_error' }));
+                for (const listener of activeState.listeners) {
+                  listener({ type: 'error', error: event.error ?? 'provider_error' });
+                }
               }
             }
 
@@ -101,6 +122,7 @@ export function createChatSystem(config: ChatSystemConfig): ChatRuntime {
               chunks: [...chunks],
               updatedAt: nowIso(config)
             });
+            activeState.status = 'completed';
 
             await config.emitTelemetry?.({
               name: 'stream.completed',
@@ -111,6 +133,9 @@ export function createChatSystem(config: ChatSystemConfig): ChatRuntime {
             });
 
             controller.enqueue(sseData({ type: 'done' }));
+            for (const listener of activeState.listeners) {
+              listener({ type: 'done' });
+            }
           } catch (error) {
             await config.storage.upsertStreamState({
               threadId: input.threadId,
@@ -118,12 +143,22 @@ export function createChatSystem(config: ChatSystemConfig): ChatRuntime {
               chunks,
               updatedAt: nowIso(config)
             });
+            activeState.status = 'aborted';
             controller.enqueue(
               sseData({
                 type: 'error',
                 error: error instanceof Error ? error.message : 'unknown_error'
               })
             );
+            for (const listener of activeState.listeners) {
+              listener({
+                type: 'error',
+                error: error instanceof Error ? error.message : 'unknown_error'
+              });
+            }
+          } finally {
+            activeState.listeners.clear();
+            activeStreams.delete(input.threadId);
           }
 
           controller.close();
@@ -132,6 +167,48 @@ export function createChatSystem(config: ChatSystemConfig): ChatRuntime {
     },
 
     async resumeStream(threadId: string, cursor = 0): Promise<ReadableStream<Uint8Array> | null> {
+      const activeStream = activeStreams.get(threadId);
+      if (activeStream) {
+        return new ReadableStream<Uint8Array>({
+          start(controller) {
+            controller.enqueue(sseData({ type: 'resume', threadId, cursor }));
+            for (const chunk of activeStream.chunks.slice(cursor)) {
+              controller.enqueue(sseData({ type: 'delta', text: chunk }));
+            }
+
+            if (activeStream.status === 'completed') {
+              controller.enqueue(sseData({ type: 'done' }));
+              controller.close();
+              return;
+            }
+
+            if (activeStream.status === 'aborted') {
+              controller.enqueue(sseData({ type: 'error', error: 'stream_aborted' }));
+              controller.close();
+              return;
+            }
+
+            const listener = (event: { type: 'delta' | 'done' | 'error'; text?: string; error?: string }) => {
+              if (event.type === 'delta' && event.text) {
+                controller.enqueue(sseData({ type: 'delta', text: event.text }));
+              }
+              if (event.type === 'done') {
+                controller.enqueue(sseData({ type: 'done' }));
+                activeStream.listeners.delete(listener);
+                controller.close();
+              }
+              if (event.type === 'error') {
+                controller.enqueue(sseData({ type: 'error', error: event.error ?? 'stream_aborted' }));
+                activeStream.listeners.delete(listener);
+                controller.close();
+              }
+            };
+
+            activeStream.listeners.add(listener);
+          }
+        });
+      }
+
       const state = await config.storage.getStreamState(threadId);
       if (!state) {
         return null;

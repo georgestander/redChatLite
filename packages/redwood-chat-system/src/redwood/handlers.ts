@@ -18,20 +18,30 @@ export function createRedwoodChatHandlers(config: RedwoodChatHandlerConfig): Red
         sessionId?: string;
         model?: string;
         providerId?: string;
-        message: ChatMessage;
+        message?: unknown;
+        messages?: unknown[];
       };
 
-      if (!payload?.id || !payload?.message) {
+      if (!payload?.id) {
         return jsonResponse({ error: 'Invalid request payload' }, 400);
+      }
+
+      const normalizedMessage = normalizeIncomingMessage(
+        payload.id,
+        payload.message ?? payload.messages?.[payload.messages.length - 1]
+      );
+      if (!normalizedMessage) {
+        return jsonResponse({ error: 'Missing message payload' }, 400);
       }
 
       const runtimeStream = await config.runtime.sendMessage({
         threadId: payload.id,
         sessionId: payload.sessionId ?? 'anonymous',
-        messageId: payload.message.id,
-        message: payload.message,
+        messageId: normalizedMessage.id,
+        message: normalizedMessage,
         model: payload.model ?? 'gpt-4o-mini',
-        providerId: payload.providerId
+        providerId: payload.providerId,
+        signal: request.signal
       });
 
       return createUIMessageStreamResponse({
@@ -143,6 +153,18 @@ interface RuntimeStreamEvent {
   type?: string;
   text?: string;
   error?: string;
+  name?: string;
+  data?: unknown;
+  toolCallId?: string;
+  toolName?: string;
+  state?: 'input-available' | 'output-available' | 'output-error';
+  output?: unknown;
+  input?: unknown;
+  url?: string;
+  title?: string;
+  sourceId?: string;
+  mediaType?: string;
+  filename?: string;
 }
 
 async function consumeRuntimeStream(
@@ -184,5 +206,146 @@ async function consumeRuntimeStream(
         onEvent({ type: 'error', error: 'invalid_stream_payload' });
       }
     }
+  }
+}
+
+function isRecord(value: unknown): value is Record<string, unknown> {
+  return typeof value === 'object' && value !== null;
+}
+
+function isRole(value: unknown): value is ChatMessage['role'] {
+  return value === 'system' || value === 'user' || value === 'assistant';
+}
+
+function normalizeIncomingMessage(threadId: string, input: unknown): ChatMessage | null {
+  if (!isRecord(input)) {
+    return null;
+  }
+
+  const incomingParts = Array.isArray(input.parts) ? input.parts : [];
+  const normalizedParts = incomingParts
+    .map((part) => normalizeIncomingPart(part))
+    .filter((part): part is ChatMessage['parts'][number] => part !== null);
+
+  if (normalizedParts.length === 0) {
+    return null;
+  }
+
+  const role = isRole(input.role) ? input.role : 'user';
+  const id = typeof input.id === 'string' ? input.id : `${threadId}-${Date.now()}`;
+  const createdAt = typeof input.createdAt === 'string' ? input.createdAt : new Date().toISOString();
+  const metadata = isRecord(input.metadata) ? input.metadata : undefined;
+  const providerId = typeof input.providerId === 'string' ? input.providerId : undefined;
+  const model = typeof input.model === 'string' ? input.model : undefined;
+
+  return {
+    id,
+    threadId,
+    role,
+    parts: normalizedParts,
+    createdAt,
+    metadata,
+    providerId,
+    model
+  };
+}
+
+function normalizeIncomingPart(input: unknown): ChatMessage['parts'][number] | null {
+  if (!isRecord(input) || typeof input.type !== 'string') {
+    return null;
+  }
+
+  switch (input.type) {
+    case 'text':
+      return typeof input.text === 'string' ? { type: 'text', text: input.text } : null;
+    case 'reasoning':
+      return typeof input.text === 'string' ? { type: 'reasoning', text: input.text } : null;
+    case 'attachment':
+      return {
+        type: 'attachment',
+        attachmentId: typeof input.attachmentId === 'string' ? input.attachmentId : undefined,
+        url: typeof input.url === 'string' ? input.url : undefined,
+        mimeType: typeof input.mimeType === 'string' ? input.mimeType : undefined,
+        name: typeof input.name === 'string' ? input.name : undefined,
+        sizeBytes: typeof input.sizeBytes === 'number' ? input.sizeBytes : undefined
+      };
+    case 'file':
+      if (typeof input.url !== 'string' || typeof input.mediaType !== 'string') {
+        return null;
+      }
+      return {
+        type: 'file',
+        url: input.url,
+        mediaType: input.mediaType,
+        name: typeof input.filename === 'string' ? input.filename : undefined
+      };
+    case 'source-url':
+      if (typeof input.sourceId !== 'string' || typeof input.url !== 'string') {
+        return null;
+      }
+      return {
+        type: 'source-url',
+        sourceId: input.sourceId,
+        url: input.url,
+        title: typeof input.title === 'string' ? input.title : undefined
+      };
+    case 'source-document':
+      if (
+        typeof input.sourceId !== 'string' ||
+        typeof input.title !== 'string' ||
+        typeof input.mediaType !== 'string'
+      ) {
+        return null;
+      }
+      return {
+        type: 'source-document',
+        sourceId: input.sourceId,
+        title: input.title,
+        mediaType: input.mediaType,
+        filename: typeof input.filename === 'string' ? input.filename : undefined,
+        url: typeof input.url === 'string' ? input.url : undefined
+      };
+    case 'dynamic-tool':
+      if (typeof input.toolCallId !== 'string' || typeof input.toolName !== 'string' || typeof input.state !== 'string') {
+        return null;
+      }
+      return {
+        type: 'tool',
+        toolCallId: input.toolCallId,
+        toolName: input.toolName,
+        state: input.state === 'output-error' ? 'output-error' : input.state === 'output-available' ? 'output-available' : 'input-available',
+        input: input.input,
+        output: input.output,
+        errorText: typeof input.errorText === 'string' ? input.errorText : undefined
+      };
+    default:
+      if (input.type.startsWith('tool-')) {
+        if (typeof input.toolCallId !== 'string') {
+          return null;
+        }
+        return {
+          type: 'tool',
+          toolCallId: input.toolCallId,
+          toolName: input.type.slice('tool-'.length),
+          state:
+            input.state === 'output-error'
+              ? 'output-error'
+              : input.state === 'output-available'
+                ? 'output-available'
+                : 'input-available',
+          input: input.input,
+          output: input.output,
+          errorText: typeof input.errorText === 'string' ? input.errorText : undefined
+        };
+      }
+
+      if (input.type.startsWith('data-')) {
+        return {
+          type: 'data',
+          name: input.type.slice('data-'.length),
+          data: input.data
+        };
+      }
+      return null;
   }
 }
