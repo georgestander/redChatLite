@@ -1,7 +1,7 @@
 # RedwoodChat v2 Plan: Full AI SDK UI Parity in RWSdk Demo
 
 ## Objective
-Ship a real RWSdk-running demo app with a React chat UI that reaches practical feature parity with AI SDK UI chat capabilities used by product teams.
+Ship a real RWSdk-running demo app with a React chat UI that reaches behavior and visual parity with the Vercel AI chatbot reference experience.
 
 ## Why This Plan Exists
 The current runnable demo path uses a custom Node HTML server and text-only stream rendering. This plan closes that gap and makes the demo represent the package's intended production integration model.
@@ -22,6 +22,7 @@ The current runnable demo path uses a custom Node HTML server and text-only stre
 6. Resume behavior that continues active streams, not replay-only behavior.
 7. Unit/regression/demo-smoke coverage for all parity-critical paths.
 8. Docs refresh: README quickstart/demo path, roadmap, changelog, and progress logs.
+9. Vercel-style visual parity for the core chat surface (layout, message bubbles, composer, controls, and attachment previews).
 
 ### Out of Scope
 1. New provider families beyond current v1 provider set.
@@ -37,6 +38,8 @@ The current runnable demo path uses a custom Node HTML server and text-only stre
 5. Resume endpoint continues active output across disconnect and is covered by regression tests.
 6. `useGenericChat` exposes parity-relevant init options from AI SDK ChatInit where safe to support.
 7. Lint, typecheck, unit, regression, and demo smoke pass in CI.
+8. The core chat screen visually matches the Vercel baseline for desktop and mobile in structure, spacing, and control hierarchy.
+9. No placeholder shell remains in the demo path; the UI is implemented as a production-like chat screen.
 
 ## Progress Tracking
 Completion gate: A row can be `done` only when lint passes, tests pass, and the change is committed.
@@ -52,11 +55,13 @@ Completion gate: A row can be `done` only when lint passes, tests pass, and the 
 | Phase 6: resume semantics hardening (continue active generation) | `done` | `pass` | `pass` | `yes` | 2026-02-18T14:19:56Z | Runtime resume can attach to active streams and continue live deltas; regression coverage added |
 | Phase 7: test/doc hardening and release-readiness gates | `done` | `pass` | `pass` | `yes` | 2026-02-18T14:33:28Z | README/runtime guidance refreshed, RedwoodSDK demo boot verified, and full lint/typecheck/unit/regression gates passing |
 | Post-closeout patch: Redwood `use-client` lookup import fix | `done` | `pass` | `pass` | `yes` | 2026-02-18T14:41:06Z | Vite `virtual:use-client-lookup.js` no longer emits invalid `import(\"/web/src/components\")` entries |
+| Phase 8: Vercel visual parity pass (`$balls`) | `in_progress` | `not-run` | `not-run` | `no` | 2026-02-18T16:49:51Z | Rework demo chat UI to match Vercel layout/visual patterns while preserving existing behavior parity |
 
 ## Delivery Timeline
 1. Week 1 (2026-02-16 to 2026-02-22): Phases 0-3.
 2. Week 2 (2026-02-23 to 2026-03-01): Phases 4-6.
 3. Week 3 (2026-03-02 to 2026-03-06): Phase 7, polish, and acceptance validation.
+4. Week 3 extension (2026-02-18): Phase 8 visual parity patch and validation closeout.
 
 ## Work Breakdown
 ### Phase 0: Parity Spec Lock
@@ -129,6 +134,44 @@ All scenarios below must remain mapped to acceptance checks and executable suite
 1. Expand regression matrix for parity features.
 2. Add demo smoke checks for UI-visible behaviors.
 3. Update README, roadmap, changelog, and logs with final validated status.
+
+### Phase 8: Exact Visual Parity Patch (`$balls`)
+1. Replace plain shell styling with a Vercel-style chat layout and message presentation.
+2. Implement composer UI parity: rounded multiline input, sticky footer bar, attachment chips, and primary send/stop controls.
+3. Preserve current behavior controls (send/stop/regenerate/resume + attachments) while matching reference visual hierarchy.
+4. Add node-based unit/regression checks that lock visual structure contracts (class hooks, layout sections, control affordances).
+
+## Phase 8 Scenario Plan (`$balls`)
+Phase 8 is a visual parity patch and must be completed with explicit scenario-to-test coupling before release.
+
+### Stakeholders
+1. Redwood demo users expecting a production-grade visual reference implementation.
+2. Internal maintainers responsible for parity claims in README/roadmap/changelog.
+3. QA/release owners enforcing lint/typecheck/test/commit completion gates.
+
+### Success Criteria
+1. Demo no longer renders generic HTML-like shell; it renders a Vercel-style chat application surface.
+2. Desktop and mobile layouts preserve reference hierarchy: message area, sticky composer, attachment strip, and control row.
+3. Existing behavior parity (send/stop/regenerate/resume/attachments/streaming) remains intact after visual refactor.
+4. Visual contract tests and regression checks pass and are linked to scenarios below.
+
+### Known Risks and Failure Modes
+1. Styling-only refactor may accidentally break streaming state transitions or control enable/disable rules.
+2. Vercel look replication can introduce unstable dependencies; scope must stay local to this repo.
+3. Redwood `use client` scanning can regress if new component structure creates invalid virtual imports.
+4. UI regressions may pass functional tests unless visual structure checks are added.
+
+### Scenario Coverage Matrix (Phase 8)
+All scenarios below must map to acceptance checks and executable suites before Phase 8 can be marked `done`.
+
+| Scenario | Acceptance Check | Unit Tests | Regression Tests |
+|---|---|---|---|
+| Core shell parity (app container + message viewport + sticky composer) | `/` renders Vercel-like hierarchy with dedicated shell sections and sticky composer region | `tests/unit/ui/chat-page-structure.unit.test.ts` | `tests/regression/chat/demo-ui-parity.regression.test.ts` |
+| Message bubble parity (assistant/user visual differentiation) | User and assistant messages render distinct bubble/container styles matching reference directionality | `tests/unit/ui/chat-page-structure.unit.test.ts` | `tests/regression/chat/demo-ui-parity.regression.test.ts` |
+| Composer parity (multiline input + primary send + stop state) | Composer shows rounded textarea, send button, and stop button state transitions | `tests/unit/ui/chat-page-structure.unit.test.ts` | `tests/regression/chat/stream-resume.regression.test.ts` |
+| Attachment preview parity (chip/card previews before send) | Selected files appear as preview chips/cards and can be submitted in the same request | `tests/unit/ui/chat-page-structure.unit.test.ts` | `tests/regression/chat/attachments.regression.test.ts` |
+| Compatibility safety with Redwood scanner | Generated `virtual:use-client-lookup.js` resolves only concrete files (no directory imports) | N/A | demo boot check + `pnpm --filter redwood-demo run dev` |
+| Completion-gate integrity | Progress rows/log/changelog updated only after lint+tests+commit evidence | N/A | `pnpm run lint`, `pnpm run typecheck`, `pnpm run test:unit`, `pnpm run test:regression` |
 
 ## Validation Matrix
 1. Static checks: `pnpm run lint`, `pnpm run typecheck`.
