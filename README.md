@@ -4,8 +4,7 @@ RedwoodChat is a Redwood-first reusable chat system centered on RedwoodSDK + AI 
 
 ## Current Status
 - Phase: v2 UI parity delivery completed (behavior + Vercel-style visual chat surface).
-- Active plan: `docs/plan-ui-parity.md`.
-- Active roadmap: `docs/roadmap.md`.
+- Active roadmap: `ROADMAP.md`.
 - Validation baseline: `pnpm run lint`, `pnpm run typecheck`, `pnpm run test:unit`, `pnpm run test:regression`.
 
 ## Quick Start (Fork or Clone)
@@ -113,12 +112,10 @@ Optional telemetry:
 
 ## Working Agreements
 1. Follow `AGENTS.md`.
-2. Log each logical change in `docs/log.ndjson`.
-3. Keep progress tables updated in plan documents.
-4. Only mark items `done` after lint + tests pass and changes are committed.
+2. Make atomic commits per logical change.
+3. Only mark work `done` after lint + tests pass and changes are committed.
 
 ## Documentation Index
-- Plan: `docs/plan.md`
-- Roadmap: `docs/roadmap.md`
+- Roadmap: `ROADMAP.md`
 - Change history: `CHANGELOG.md`
-- Activity log: `docs/log.ndjson`
+- Repository rules: `AGENTS.md`
